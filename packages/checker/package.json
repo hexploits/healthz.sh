@@ -1,0 +1,16 @@
+{
+  "name": "@healthz/checker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@healthz/types": "*"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.600.0",
+    "@aws-sdk/lib-dynamodb": "^3.600.0"
+  }
+}

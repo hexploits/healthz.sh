@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.next/
+out/
+cdk.out/
+*.js.map
+*.d.ts.map
+*.d.ts
+!packages/types/dist/
+.turbo/
+.env*.local
+.idea
+healthz.yaml
+cdk-outputs.json

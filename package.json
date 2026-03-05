@@ -1,0 +1,22 @@
+{
+  "name": "healthz",
+  "private": true,
+  "packageManager": "npm@11.5.1",
+  "workspaces": ["packages/*", "infra"],
+  "scripts": {
+    "build": "turbo build",
+    "typecheck": "turbo typecheck",
+    "dev:db": "docker compose up -d",
+    "dev:seed": "npm run -w @healthz/types build && tsx scripts/seed.ts",
+    "dev:api": "tsx watch scripts/dev-api.ts",
+    "dev:ui": "npm run -w @healthz/ui dev",
+    "dev": "npm run -w @healthz/types build && concurrently -n api,ui -c blue,green \"tsx watch scripts/dev-api.ts\" \"npm run -w @healthz/ui dev\"",
+    "deploy": "./deploy.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "tsx": "^4.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.5.0"
+  }
+}

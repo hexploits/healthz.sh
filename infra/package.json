@@ -1,0 +1,20 @@
+{
+  "name": "@healthz/infra",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist cdk.out",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "@healthz/types": "*",
+    "aws-cdk-lib": "^2.150.0",
+    "constructs": "^10.3.0",
+    "yaml": "^2.4.0"
+  },
+  "devDependencies": {
+    "aws-cdk": "^2.150.0",
+    "ts-node": "^10.9.0"
+  }
+}

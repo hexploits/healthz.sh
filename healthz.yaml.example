@@ -1,0 +1,49 @@
+# Endpoints to monitor
+checks:
+  - name: My API
+    url: https://api.example.com/health
+    interval: 1m
+    timeout: 10s
+    expected_status: 200
+
+  - name: My Website
+    url: https://example.com
+    interval: 1m
+    timeout: 10s
+    expected_status: 200
+
+# Regions to run health checks from (one Lambda per region)
+regions:
+  - us-east-1
+  - eu-west-1
+
+settings:
+  # Where the dashboard (S3 + CloudFront + API Gateway) and
+  # the master DynamoDB table are deployed. Replicas are created
+  # in all other regions listed above.
+  primary_region: us-east-1
+
+  # How long to keep check results (DynamoDB TTL)
+  retention_days: 180
+
+  # DynamoDB table name (shared across all regions)
+  table_name: healthz-checks
+
+# Custom domain (optional)
+# Option A — External DNS (Cloudflare, etc.):
+#   Just set names. The deploy script requests the cert, prints validation
+#   records to add, and completes on re-run once validated.
+# Option B — Route53:
+#   Set names + hosted_zone_id + zone_name. Fully automated.
+# domain:
+#   names:
+#     - status.example.com
+#   hosted_zone_id: Z0123456789
+#   zone_name: example.com
+
+# Branding shown on the dashboard
+branding:
+  # Company name displayed in the header (optional)
+  company_name: My Company
+  # URL the company name links to (optional)
+  company_url: https://example.com
