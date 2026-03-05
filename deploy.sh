@@ -71,8 +71,8 @@ parse_config() {
   # Extract branding (optional)
   COMPANY_NAME=$(grep 'company_name:' healthz.yaml | head -1 | sed 's/.*company_name:[[:space:]]*//' | sed 's/[[:space:]]*$//')
   COMPANY_URL=$(grep 'company_url:' healthz.yaml | head -1 | sed 's/.*company_url:[[:space:]]*//' | sed 's/[[:space:]]*$//')
-  THEME_MODE=$(grep 'theme_mode:' healthz.yaml | head -1 | sed 's/.*theme_mode:[[:space:]]*//' | sed 's/[[:space:]]*$//')
-  PRIMARY_COLOR=$(grep 'primary_color:' healthz.yaml | head -1 | sed 's/.*primary_color:[[:space:]]*//' | sed "s/[[:space:]]*$//" | sed "s/['\"]//g")
+  THEME_MODE=$(grep 'theme_mode:' healthz.yaml | head -1 | sed 's/.*theme_mode:[[:space:]]*//' | sed 's/[[:space:]]*$//' || true)
+  PRIMARY_COLOR=$(grep 'primary_color:' healthz.yaml | head -1 | sed 's/.*primary_color:[[:space:]]*//' | sed "s/[[:space:]]*$//" | sed "s/['\"]//g" || true)
 
   # Extract domain config (optional)
   DOMAIN_NAMES=()
@@ -337,14 +337,19 @@ build_all() {
     info "Primary color: $PRIMARY_COLOR"
   fi
 
-  local logo_file
-  logo_file=$(find packages/ui/public -maxdepth 1 -name 'logo.*' -printf '%f\n' 2>/dev/null | head -1)
-  if [[ -n "$logo_file" ]]; then
-    export NEXT_PUBLIC_LOGO="$logo_file"
-    info "Logo: packages/ui/public/$logo_file"
+  local logo_dark logo_light
+  logo_dark=$(find packages/ui/public -maxdepth 1 -name 'logo-dark.*' -printf '%f\n' 2>/dev/null | head -1)
+  logo_light=$(find packages/ui/public -maxdepth 1 -name 'logo-light.*' -printf '%f\n' 2>/dev/null | head -1)
+  if [[ -n "$logo_dark" ]]; then
+    export NEXT_PUBLIC_LOGO_DARK="$logo_dark"
+    info "Logo (dark): packages/ui/public/$logo_dark"
+  fi
+  if [[ -n "$logo_light" ]]; then
+    export NEXT_PUBLIC_LOGO_LIGHT="$logo_light"
+    info "Logo (light): packages/ui/public/$logo_light"
   fi
 
-  if ls packages/ui/public/fonts/*.woff2 &>/dev/null; then
+  if ls packages/ui/public/fonts/*.woff2 packages/ui/public/fonts/*.otf packages/ui/public/fonts/*.woff packages/ui/public/fonts/*.ttf &>/dev/null; then
     export NEXT_PUBLIC_FONT=true
     info "Custom font: packages/ui/public/fonts/"
   fi

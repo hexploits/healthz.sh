@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 
 const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME;
 const companyUrl = process.env.NEXT_PUBLIC_COMPANY_URL;
-const logoFile = process.env.NEXT_PUBLIC_LOGO;
+const logoDark = process.env.NEXT_PUBLIC_LOGO_DARK;
+const logoLight = process.env.NEXT_PUBLIC_LOGO_LIGHT;
 const themeMode = process.env.NEXT_PUBLIC_THEME_MODE || "both";
 const primaryColor = process.env.NEXT_PUBLIC_PRIMARY_COLOR;
 
@@ -47,12 +48,20 @@ export default function RootLayout({
       >
         <header className="border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
           {(() => {
-            const brandContent = logoFile ? (
-              <img
-                src={`/${logoFile}`}
-                alt={companyName || "Logo"}
-                className="h-8 w-auto"
-              />
+            const hasLogo = logoDark || logoLight;
+            const brandContent = hasLogo ? (
+              <>
+                <img
+                  src={`/${logoDark || logoLight}`}
+                  alt={companyName || "Logo"}
+                  className="h-8 w-auto hidden dark:block"
+                />
+                <img
+                  src={`/${logoLight || logoDark}`}
+                  alt={companyName || "Logo"}
+                  className="h-8 w-auto dark:hidden"
+                />
+              </>
             ) : (
               <span className="text-primary">{companyName || "Status"}</span>
             );

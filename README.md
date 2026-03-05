@@ -62,29 +62,20 @@ npm run dev:seed       # seed with realistic test data
 npm run dev            # start API + UI on localhost:3000
 ```
 
-To see your branding locally, prefix with the environment variables:
+Branding options are set via environment variables in dev mode (the deploy script sets these automatically from `healthz.yaml`):
 
 ```bash
-NEXT_PUBLIC_COMPANY_NAME="My Company" NEXT_PUBLIC_COMPANY_URL="https://example.com" npm run dev
+NEXT_PUBLIC_COMPANY_NAME="My Company" \
+NEXT_PUBLIC_COMPANY_URL="https://example.com" \
+NEXT_PUBLIC_LOGO_DARK="logo-dark.png" \
+NEXT_PUBLIC_LOGO_LIGHT="logo-light.png" \
+NEXT_PUBLIC_FONT=true \
+NEXT_PUBLIC_THEME_MODE="dark" \
+NEXT_PUBLIC_PRIMARY_COLOR="#3717EB" \
+npm run dev
 ```
 
-To use a logo instead of text, place a `logo.png` or `logo.svg` in `packages/ui/public/` and add the env var:
-
-```bash
-NEXT_PUBLIC_LOGO="logo.png" npm run dev
-```
-
-To use a custom font, place your font files in `packages/ui/public/fonts/`, update the `@font-face` in `packages/ui/src/app/globals.css`, then:
-
-```bash
-NEXT_PUBLIC_FONT=true npm run dev
-```
-
-To force a theme mode (hiding the toggle) and set a primary brand color:
-
-```bash
-NEXT_PUBLIC_THEME_MODE="dark" NEXT_PUBLIC_PRIMARY_COLOR="#3717EB" npm run dev
-```
+All are optional — only include the ones you need.
 
 ## Configuration
 
@@ -116,8 +107,8 @@ settings:
   table_name: healthz-checks
 
 branding:
-  company_name: My Company   # shown in the dashboard header
-  company_url: https://example.com  # header name links here
+  company_name: My Company   # header text (fallback when no logo)
+  company_url: https://example.com
   theme_mode: both           # "both" (default), "dark", or "light"
   primary_color: "#3717EB"   # hex color for headings and brand text
 ```
@@ -131,13 +122,32 @@ branding:
 | `checks[].expected_status` | Response status compared against this to determine `healthy: true/false` |
 | `regions` | One Lambda + EventBridge rules deployed per region. DynamoDB replicas in each. |
 | `primary_region` | Where the dashboard (S3 + CloudFront + API Gateway) and master DynamoDB table live |
-| `retention_days` | TTL on DynamoDB records — data auto-expires after this period. Supports up to 180 days for the dashboard time range selector. |
+| `retention_days` | TTL on DynamoDB records — data auto-expires after this period |
 | `branding.company_name` | Displayed in the top-left of the dashboard header |
 | `branding.company_url` | The header company name links to this URL |
 | `branding.theme_mode` | `both` (default, shows toggle), `dark` (forced dark), or `light` (forced light) |
 | `branding.primary_color` | Hex color (e.g. `"#3717EB"`) applied to headings, service names, and brand text |
-| Logo file | Place a `logo.png` or `logo.svg` in `packages/ui/public/` to display your logo instead of text in the header |
-| Custom font | Place `.woff2` font files in `packages/ui/public/fonts/` and update the `@font-face` in `globals.css` to use your own typeface |
+
+### Logo
+
+Place logo files in `packages/ui/public/`:
+
+| File | Purpose |
+|---|---|
+| `logo-dark.png` | Shown when dark mode is active |
+| `logo-light.png` | Shown when light mode is active |
+
+Both are optional. If only one is provided, it's used for both modes. If neither is present, the `company_name` text is displayed instead. The deploy script detects these automatically.
+
+Example logos (`logo-dark.png` and `logo-light.png`) are included in the repo as a reference — replace them with your own.
+
+### Custom Font
+
+1. Place your font files (`.woff2`, `.otf`, `.ttf`, etc.) in `packages/ui/public/fonts/`
+2. Update the `@font-face` `src` paths in `packages/ui/src/app/globals.css` to point to your files
+3. The deploy script detects font files automatically and enables the custom font
+
+The `@font-face` declarations use the family name `CustomFont` — don't change this, it's referenced by the Tailwind config. Just update the `src` URLs to match your font filenames.
 
 ### Custom Domain
 

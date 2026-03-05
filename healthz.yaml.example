@@ -41,17 +41,15 @@ settings:
 #   hosted_zone_id: Z0123456789
 #   zone_name: example.com
 
-# Branding shown on the dashboard
+# Branding shown on the dashboard (all optional)
 branding:
-  # Company name displayed in the header (optional)
-  company_name: My Company
-  # URL the company name links to (optional)
-  company_url: https://example.com
-  # Theme mode: "both" (default, shows toggle), "dark", or "light"
-  # theme_mode: dark
-  # Primary color for headings and brand text (optional)
-  # primary_color: "#3717EB"
-  # Logo: place a logo.png or logo.svg in packages/ui/public/
-  # and it will replace the text in the header automatically
-  # Font: place .woff2 font files in packages/ui/public/fonts/
-  # and update the @font-face in packages/ui/src/app/globals.css
+  company_name: My Company           # header text (fallback when no logo)
+  company_url: https://example.com   # header links here
+  # theme_mode: both                 # "both" (default), "dark", or "light"
+  # primary_color: "#3717EB"         # hex color for headings and brand text
+
+# Logo: place logo-dark.png and/or logo-light.png in packages/ui/public/
+# Either or both can be provided. Falls back to company_name text if absent.
+
+# Font: place font files in packages/ui/public/fonts/ and update the
+# @font-face src paths in packages/ui/src/app/globals.css

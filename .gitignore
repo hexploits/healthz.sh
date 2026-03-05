@@ -13,3 +13,6 @@ cdk.out/
 healthz.yaml
 healthz.*.yaml
 cdk-outputs.json
+webfonts/
+packages/ui/public/fonts/*
+!packages/ui/public/fonts/.gitkeep
