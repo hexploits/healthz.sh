@@ -127,6 +127,7 @@ export default function CheckDetail({ id }: { id: string }) {
   const [uptimes, setUptimes] = useState<UptimeData[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartPeriod, setChartPeriod] = useState<string>("24h");
+  const [visibleRows, setVisibleRows] = useState(25);
 
   useEffect(() => {
     const from = new Date(Date.now() - (PERIOD_MS[chartPeriod] || PERIOD_MS["24h"])).toISOString();
@@ -378,7 +379,7 @@ export default function CheckDetail({ id }: { id: string }) {
               </tr>
             </thead>
             <tbody>
-              {records.slice(0, 100).map((rec, i) => (
+              {records.slice(0, visibleRows).map((rec, i) => (
                 <tr
                   key={i}
                   className="border-t border-gray-100 dark:border-gray-800/50"
@@ -416,6 +417,14 @@ export default function CheckDetail({ id }: { id: string }) {
             </tbody>
           </table>
         </div>
+        {visibleRows < records.length && (
+          <button
+            onClick={() => setVisibleRows((v) => v + 25)}
+            className="w-full py-3 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800 transition-colors"
+          >
+            Show more ({records.length - visibleRows} remaining)
+          </button>
+        )}
       </div>
     </div>
   );
