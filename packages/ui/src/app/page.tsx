@@ -49,7 +49,7 @@ interface AggregateData {
   recentRecords: CheckRecord[];
 }
 
-const CHART_PERIODS = ["24h", "7d", "14d", "30d", "90d", "180d"] as const;
+const CHART_PERIODS = ["24h", "7d", "14d", "30d", "90d", "180d", "365d"] as const;
 
 type HealthStatus = "ok" | "degraded" | "down";
 
@@ -110,6 +110,7 @@ function getBucketMinutes(period: string): number {
     "30d": 720,
     "90d": 1440,
     "180d": 2880,
+    "365d": 5760,
   };
   return map[period] || 30;
 }
@@ -481,7 +482,7 @@ export default function OverviewPage() {
 
       {/* Aggregate uptime cards */}
       {aggregate && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4 mb-6">
           {aggregate.uptimes.map((u) => (
             <div
               key={u.period}

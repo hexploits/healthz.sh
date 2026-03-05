@@ -45,7 +45,7 @@ const STATUS_COLORS: Record<HealthStatus, string> = {
   down: "#f87171",
 };
 
-const PERIODS = ["24h", "7d", "14d", "30d", "90d", "180d"] as const;
+const PERIODS = ["24h", "7d", "14d", "30d", "90d", "180d", "365d"] as const;
 
 const PERIOD_MS: Record<string, number> = {
   "24h": 24 * 60 * 60 * 1000,
@@ -54,11 +54,12 @@ const PERIOD_MS: Record<string, number> = {
   "30d": 30 * 24 * 60 * 60 * 1000,
   "90d": 90 * 24 * 60 * 60 * 1000,
   "180d": 180 * 24 * 60 * 60 * 1000,
+  "365d": 365 * 24 * 60 * 60 * 1000,
 };
 
 function getBucketMinutes(period: string): number {
   const map: Record<string, number> = {
-    "24h": 30, "7d": 180, "14d": 360, "30d": 720, "90d": 1440, "180d": 2880,
+    "24h": 30, "7d": 180, "14d": 360, "30d": 720, "90d": 1440, "180d": 2880, "365d": 5760,
   };
   return map[period] || 30;
 }
@@ -170,7 +171,7 @@ export default function CheckDetail({ id }: { id: string }) {
 
       <h1 className="text-2xl font-bold mb-6">{id}</h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
         {uptimes.map((u) => (
           <div
             key={u.period}
