@@ -231,7 +231,7 @@ function StatusPanel({
     <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden mb-8">
       <div className="px-5 pt-5 pb-2 flex items-start justify-between">
         <div>
-          <h2 className="text-lg font-semibold mb-1">
+          <h2 className="text-lg font-semibold mb-1 text-primary">
             {title || "Latency by Location"}
           </h2>
           <p className="text-xs text-gray-500 mb-4">
@@ -488,7 +488,7 @@ export default function OverviewPage() {
               key={u.period}
               className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-3 sm:p-4 text-center"
             >
-              <p className="text-[10px] sm:text-xs text-gray-500 uppercase mb-1">
+              <p className="text-[10px] sm:text-xs text-primary uppercase mb-1">
                 {u.period} uptime
               </p>
               <p
@@ -517,7 +517,7 @@ export default function OverviewPage() {
       )}
 
       {/* Per-check grid */}
-      <h2 className="text-lg font-semibold mb-4">Services</h2>
+      <h2 className="text-lg font-semibold mb-4 text-primary">Services</h2>
       <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {checks.map((check) => {
           const checkHealthy =
@@ -536,7 +536,7 @@ export default function OverviewPage() {
                       checkHealthy ? "bg-green-400" : "bg-red-400"
                     }`}
                   />
-                  <h3 className="font-semibold">{check.name}</h3>
+                  <h3 className="font-semibold text-primary">{check.name}</h3>
                 </div>
                 <span
                   className={`text-sm font-mono ${uptimeColor(check.uptimePercent)}`}

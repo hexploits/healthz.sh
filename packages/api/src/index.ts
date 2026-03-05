@@ -60,6 +60,7 @@ function periodToMs(period: string): number {
     "30d": 30 * 24 * 60 * 60 * 1000,
     "90d": 90 * 24 * 60 * 60 * 1000,
     "180d": 180 * 24 * 60 * 60 * 1000,
+    "365d": 365 * 24 * 60 * 60 * 1000,
   };
   return map[period] || map["24h"];
 }
@@ -175,7 +176,7 @@ async function getAggregate(
 ): Promise<APIGatewayProxyResult> {
   const chartPeriod = params?.period || "24h";
   const now = Date.now();
-  const periods = ["24h", "7d", "14d", "30d", "90d", "180d"] as const;
+  const periods = ["24h", "7d", "14d", "30d", "90d", "180d", "365d"] as const;
   const periodBoundaries = periods.map((p) => ({
     period: p,
     from: new Date(now - periodToMs(p)).toISOString(),

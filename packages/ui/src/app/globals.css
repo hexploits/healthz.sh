@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom font: place your font files in public/fonts/ and update the paths below */
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/custom-font.woff2') format('woff2'),
+       url('/fonts/custom-font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --chart-tick: #9ca3af;
   --chart-tooltip-bg: #ffffff;
@@ -16,6 +25,10 @@
   --chart-tooltip-border: #374151;
   --chart-tooltip-text: #f3f4f6;
   --health-label: #9ca3af;
+}
+
+.text-primary {
+  color: var(--color-primary, inherit);
 }
 
 /* recharts legend/label text adapts to theme */

@@ -11,4 +11,5 @@ cdk.out/
 .env*.local
 .idea
 healthz.yaml
+healthz.*.yaml
 cdk-outputs.json

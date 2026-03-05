@@ -71,6 +71,8 @@ parse_config() {
   # Extract branding (optional)
   COMPANY_NAME=$(grep 'company_name:' healthz.yaml | head -1 | sed 's/.*company_name:[[:space:]]*//' | sed 's/[[:space:]]*$//')
   COMPANY_URL=$(grep 'company_url:' healthz.yaml | head -1 | sed 's/.*company_url:[[:space:]]*//' | sed 's/[[:space:]]*$//')
+  THEME_MODE=$(grep 'theme_mode:' healthz.yaml | head -1 | sed 's/.*theme_mode:[[:space:]]*//' | sed 's/[[:space:]]*$//')
+  PRIMARY_COLOR=$(grep 'primary_color:' healthz.yaml | head -1 | sed 's/.*primary_color:[[:space:]]*//' | sed "s/[[:space:]]*$//" | sed "s/['\"]//g")
 
   # Extract domain config (optional)
   DOMAIN_NAMES=()
@@ -325,6 +327,26 @@ build_all() {
   fi
   if [[ -n "${COMPANY_URL:-}" ]]; then
     export NEXT_PUBLIC_COMPANY_URL="$COMPANY_URL"
+  fi
+  if [[ -n "${THEME_MODE:-}" ]]; then
+    export NEXT_PUBLIC_THEME_MODE="$THEME_MODE"
+    info "Theme mode: $THEME_MODE"
+  fi
+  if [[ -n "${PRIMARY_COLOR:-}" ]]; then
+    export NEXT_PUBLIC_PRIMARY_COLOR="$PRIMARY_COLOR"
+    info "Primary color: $PRIMARY_COLOR"
+  fi
+
+  local logo_file
+  logo_file=$(find packages/ui/public -maxdepth 1 -name 'logo.*' -printf '%f\n' 2>/dev/null | head -1)
+  if [[ -n "$logo_file" ]]; then
+    export NEXT_PUBLIC_LOGO="$logo_file"
+    info "Logo: packages/ui/public/$logo_file"
+  fi
+
+  if ls packages/ui/public/fonts/*.woff2 &>/dev/null; then
+    export NEXT_PUBLIC_FONT=true
+    info "Custom font: packages/ui/public/fonts/"
   fi
 
   info "Building types, checker, api, and ui ..."

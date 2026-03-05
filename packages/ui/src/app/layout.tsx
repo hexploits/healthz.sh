@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import { ThemeToggle } from "./theme-toggle";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const useCustomFont = !!process.env.NEXT_PUBLIC_FONT;
 
 const brandName = process.env.NEXT_PUBLIC_COMPANY_NAME || "healthz.sh";
 
@@ -12,17 +13,23 @@ export const metadata: Metadata = {
   description: `${brandName} multi-region health check dashboard`,
 };
 
-const themeScript = `
-(function(){
+const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME;
+const companyUrl = process.env.NEXT_PUBLIC_COMPANY_URL;
+const logoFile = process.env.NEXT_PUBLIC_LOGO;
+const themeMode = process.env.NEXT_PUBLIC_THEME_MODE || "both";
+const primaryColor = process.env.NEXT_PUBLIC_PRIMARY_COLOR;
+
+const themeScript =
+  themeMode === "dark"
+    ? `document.documentElement.classList.add('dark');`
+    : themeMode === "light"
+      ? ``
+      : `(function(){
   var t = localStorage.getItem('theme');
   if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
   }
-})();
-`;
-
-const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME;
-const companyUrl = process.env.NEXT_PUBLIC_COMPANY_URL;
+})();`;
 
 export default function RootLayout({
   children,
@@ -35,22 +42,35 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${inter.className} bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors flex flex-col`}
+        className={`${useCustomFont ? "font-custom" : inter.className} bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen transition-colors flex flex-col`}
+        {...(primaryColor && { style: { "--color-primary": primaryColor } as React.CSSProperties })}
       >
         <header className="border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
-          {companyUrl ? (
-            <a
-              href={companyUrl}
-              className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
-            >
-              {companyName || "Status"}
-            </a>
-          ) : (
-            <a href="/" className="text-xl font-bold tracking-tight">
-              {companyName || "Status"}
-            </a>
-          )}
-          <ThemeToggle />
+          {(() => {
+            const brandContent = logoFile ? (
+              <img
+                src={`/${logoFile}`}
+                alt={companyName || "Logo"}
+                className="h-8 w-auto"
+              />
+            ) : (
+              <span className="text-primary">{companyName || "Status"}</span>
+            );
+
+            return companyUrl ? (
+              <a
+                href={companyUrl}
+                className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
+              >
+                {brandContent}
+              </a>
+            ) : (
+              <a href="/" className="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity">
+                {brandContent}
+              </a>
+            );
+          })()}
+          {themeMode === "both" && <ThemeToggle />}
         </header>
         <main className="max-w-7xl mx-auto px-6 py-8 flex-1 w-full">{children}</main>
         <footer className="border-t border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-center">

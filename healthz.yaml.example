@@ -47,3 +47,11 @@ branding:
   company_name: My Company
   # URL the company name links to (optional)
   company_url: https://example.com
+  # Theme mode: "both" (default, shows toggle), "dark", or "light"
+  # theme_mode: dark
+  # Primary color for headings and brand text (optional)
+  # primary_color: "#3717EB"
+  # Logo: place a logo.png or logo.svg in packages/ui/public/
+  # and it will replace the text in the header automatically
+  # Font: place .woff2 font files in packages/ui/public/fonts/
+  # and update the @font-face in packages/ui/src/app/globals.css

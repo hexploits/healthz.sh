@@ -169,7 +169,7 @@ export default function CheckDetail({ id }: { id: string }) {
         &larr; Back to overview
       </Link>
 
-      <h1 className="text-2xl font-bold mb-6">{id}</h1>
+      <h1 className="text-2xl font-bold mb-6 text-primary">{id}</h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
         {uptimes.map((u) => (
@@ -177,7 +177,7 @@ export default function CheckDetail({ id }: { id: string }) {
             key={u.period}
             className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4 text-center"
           >
-            <p className="text-xs text-gray-500 uppercase mb-1">
+            <p className="text-xs text-primary uppercase mb-1">
               {u.period} uptime
             </p>
             <p
@@ -202,7 +202,7 @@ export default function CheckDetail({ id }: { id: string }) {
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden mb-8">
         <div className="px-5 pt-5 pb-2 flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold mb-1">Latency by Location</h2>
+            <h2 className="text-lg font-semibold mb-1 text-primary">Latency by Location</h2>
             <p className="text-xs text-gray-500 mb-4">
               Response times as seen from each monitoring location
             </p>
@@ -367,7 +367,7 @@ export default function CheckDetail({ id }: { id: string }) {
 
       {/* Recent checks table */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
-        <h2 className="text-lg font-semibold p-5 pb-3">Recent Checks</h2>
+        <h2 className="text-lg font-semibold p-5 pb-3 text-primary">Recent Checks</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

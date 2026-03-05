@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "out/**"],
-      "env": ["NEXT_PUBLIC_COMPANY_NAME", "NEXT_PUBLIC_COMPANY_URL"]
+      "env": ["NEXT_PUBLIC_COMPANY_NAME", "NEXT_PUBLIC_COMPANY_URL", "NEXT_PUBLIC_LOGO", "NEXT_PUBLIC_FONT", "NEXT_PUBLIC_THEME_MODE", "NEXT_PUBLIC_PRIMARY_COLOR"]
     },
     "typecheck": {
       "dependsOn": ["^build"]
